@@ -72,14 +72,14 @@ export function createSupabaseBackend(url: string, anonKey: string): Backend {
 
     async getProfile(user) {
       const row = check(
-        await sb.from('profiles').select('id,name,onboarded,plan,last_viewed').eq('id', user.id).maybeSingle(),
+        await sb.from('profiles').select('id,name,onboarded,plan,last_viewed,weight').eq('id', user.id).maybeSingle(),
       ) as any
       if (!row) {
         // Fallback caso o trigger não tenha criado o perfil.
         const { data } = await sb.auth.getUser()
         const name = (data.user?.user_metadata?.name as string) ?? ''
         check(await sb.from('profiles').upsert({ id: user.id, name }))
-        return { id: user.id, email: user.email, name, onboarded: false, plan: null, lastViewed: null }
+        return { id: user.id, email: user.email, name, onboarded: false, plan: null, lastViewed: null, weight: null }
       }
       return {
         id: row.id,
@@ -88,6 +88,7 @@ export function createSupabaseBackend(url: string, anonKey: string): Backend {
         onboarded: row.onboarded,
         plan: row.plan,
         lastViewed: row.last_viewed,
+        weight: row.weight ?? null,
       } satisfies Profile
     },
 
@@ -97,6 +98,7 @@ export function createSupabaseBackend(url: string, anonKey: string): Backend {
       if (patch.onboarded !== undefined) row.onboarded = patch.onboarded
       if (patch.plan !== undefined) row.plan = patch.plan
       if (patch.lastViewed !== undefined) row.last_viewed = patch.lastViewed
+      if (patch.weight !== undefined) row.weight = patch.weight
       check(await sb.from('profiles').update(row).eq('id', userId))
       if (patch.name !== undefined) await sb.auth.updateUser({ data: { name: patch.name } })
     },

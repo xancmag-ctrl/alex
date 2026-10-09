@@ -9,6 +9,8 @@ import { articleHref } from '@/components/ArticleRow'
 import { Card, SectionTitle } from '@/components/ui/misc'
 import { dayIndex, firstName } from '@/lib/utils'
 import { planStatus, formatDuration } from '@/lib/plan'
+import { formatKg, weightProgress } from '@/lib/weight'
+import { Target } from 'lucide-react'
 
 const SHORTCUTS = [
   { to: '/receitas', label: 'Receitas', icon: ChefHat },
@@ -80,6 +82,23 @@ function PlanPill() {
   )
 }
 
+function WeightPill() {
+  const { profile } = useSession()
+  const w = profile.weight
+  if (!w) return null
+  const p = weightProgress(w)
+  return (
+    <Link to="/plano" className="-mt-4 flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 hover:bg-brand-50/50">
+      <Target className="size-5 text-brand-600" />
+      <span className="flex-1 text-sm text-ink">
+        <strong className="font-semibold">Minha meta</strong>
+        <span className="text-ink-muted"> · {p.reached ? 'alcançada' : p.direction === 'manter' ? 'manter o peso' : `faltam ${formatKg(p.remaining)}`}</span>
+      </span>
+      <ArrowRight className="size-4 text-ink-subtle" />
+    </Link>
+  )
+}
+
 export default function Home() {
   const { profile } = useSession()
   const recipe = RECIPES[dayIndex(RECIPES.length)]
@@ -99,6 +118,7 @@ export default function Home() {
         <div className="space-y-7">
           <ContinueCard />
           <PlanPill />
+          <WeightPill />
 
           <section>
             <SectionTitle>Para hoje</SectionTitle>

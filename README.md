@@ -12,8 +12,8 @@ Web app (PWA instalável) entregue como produto digital de R$ 27,90 sobre jejum 
 | Área | O que faz |
 |---|---|
 | **Início** | Saudação, “Continue de onde parou”, “Para hoje”, receita do dia, dica do dia e atalhos |
-| **Meu Plano** | O usuário define os próprios horários (acordar, primeira e última refeição, dormir). Mostra a barra do dia e a rotina: Manhã → Período de alimentação → Período sem alimentação → Próxima refeição → Noite |
-| **Receitas** | 26 receitas com busca e categorias (Café da manhã, Almoço, Jantar, Lanches, Rápidas, Poucos ingredientes). Cada uma tem tempo, dificuldade, ingredientes, preparo (passos marcáveis), substituições, alergênicos, favoritar e “adicionar à lista de compras” |
+| **Meu Plano** | Meta de peso opcional (peso inicial, atual e meta, com progresso). O usuário define os próprios horários (acordar, primeira e última refeição, dormir). Mostra a barra do dia e a rotina: Manhã → Período de alimentação → Período sem alimentação → Próxima refeição → Noite |
+| **Receitas** | 26 receitas com busca e categorias (Café da manhã, Almoço, Jantar, Lanches, Rápidas, Poucos ingredientes). Cada uma tem tempo, dificuldade, calorias e macros estimados por porção, ingredientes, preparo (passos marcáveis), substituições, alergênicos, favoritar e “adicionar à lista de compras” |
 | **Ferramentas** | Checklist diário (4 hábitos + últimos 7 dias), Lista de compras (manual ou a partir de receitas), Temporizador (continua contando se o app for fechado) e Diário (refeição, fome 1–5, como se sentia) |
 | **Aprenda** | 18 conteúdos em 5 categorias, Mitos e verdades interativo (15 afirmações), 10 dicas práticas e **Central de Segurança** |
 | **Favoritos** | Receitas e Conteúdos |
@@ -21,7 +21,7 @@ Web app (PWA instalável) entregue como produto digital de R$ 27,90 sobre jejum 
 
 Também: cadastro/login, recuperação de senha, onboarding de 3 telas, estados vazios, loading, mensagens de erro em português, navegação inferior no celular e sidebar no desktop.
 
-**Fora do escopo, de propósito:** IA, comunidade, chat, ranking, gamificação, gráficos, notificações, peso, metas de emagrecimento e contador de calorias.
+**Fora do escopo, de propósito:** IA, comunidade, chat, ranking, gamificação, gráficos, notificações e diário de calorias.
 
 ---
 
@@ -69,7 +69,7 @@ Sem variáveis de ambiente, o app abre em **modo demonstração**: tudo funciona
 ## Configurando o Supabase (≈10 minutos)
 
 1. Crie um projeto em [supabase.com](https://supabase.com).
-2. **SQL Editor** → cole o conteúdo de `supabase/migrations/20261008000000_init.sql` → **Run**.
+2. **SQL Editor** → rode, nesta ordem, os arquivos de `supabase/migrations/` (`20261008000000_init.sql` e depois `20261009000000_weight_goal.sql`).
 3. **Authentication → Sign In / Providers → Email**:
    - Desative **Confirm email** para o comprador entrar direto após o cadastro (recomendado para este produto). Se deixar ativado, o app mostra “Confirme seu e-mail” e funciona do mesmo jeito, só que com um passo a mais.
 4. **Authentication → URL Configuration**:
@@ -97,6 +97,7 @@ Sem variáveis de ambiente, o app abre em **modo demonstração**: tudo funciona
 ## Personalizando
 
 - **Nome do app**: `APP_NAME` em `src/components/layout/Logo.tsx`, `index.html` e `public/manifest.webmanifest`.
+- **Calorias e macros**: `src/data/nutrition.ts` (tabela por 100 g + gramas de cada ingrediente por receita). Ao criar uma receita nova, adicione a entrada dela ali; um teste avisa se faltar.
 - **Receitas**: `src/data/recipes.ts`. Para usar fotos reais, coloque as imagens em `public/fotos/` (de preferência `.webp`, ~1200px de largura) e adicione `image: '/fotos/nome.webp'` na receita. Sem foto, o app mostra uma capa ilustrada.
 - **Conteúdos**: `src/data/articles.ts`; **Mitos e verdades**: `src/data/myths.ts`; **Dicas**: `src/data/tips.ts`.
 - **Termos e privacidade**: `src/pages/Legal.tsx`. São textos-base: revise com quem cuida da parte jurídica do seu negócio.

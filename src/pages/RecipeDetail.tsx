@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { Clock, Gauge, Users, ShoppingCart, Check, AlertTriangle, Repeat } from 'lucide-react'
 import { getRecipe, CATEGORY_LABEL } from '@/data/recipes'
 import { RecipeCover } from '@/components/RecipeCover'
+import { NutritionCard } from '@/components/NutritionCard'
 import { FavoriteButton } from '@/components/FavoriteButton'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { Button } from '@/components/ui/button'
@@ -144,6 +145,8 @@ export default function RecipeDetail() {
               </Link>
             )}
           </Card>
+
+          <NutritionCard slug={recipe.slug} />
 
           <Card className="p-5">
             <h2 className="flex items-center gap-2 font-semibold text-ink">

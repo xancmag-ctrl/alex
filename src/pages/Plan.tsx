@@ -7,6 +7,7 @@ import { Card, SectionTitle } from '@/components/ui/misc'
 import { Input, Label } from '@/components/ui/input'
 import { useSession } from '@/contexts/AppContext'
 import { useToast } from '@/components/ui/toast'
+import { WeightGoalCard } from '@/components/WeightGoalCard'
 import { DEFAULT_PLAN, PLAN_EXAMPLES, planStatus, formatDuration, span, toMinutes } from '@/lib/plan'
 import type { PlanSettings } from '@/lib/types'
 import { cn } from '@/lib/utils'
@@ -232,6 +233,7 @@ export default function Plan() {
               <PlanForm initial={plan ?? DEFAULT_PLAN} onSave={save} onCancel={plan ? () => setEditing(false) : undefined} />
             </Card>
           )}
+          <WeightGoalCard />
         </div>
 
         <aside className="space-y-4">

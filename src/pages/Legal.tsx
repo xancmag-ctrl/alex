@@ -28,7 +28,7 @@ const TERMS = [
 const PRIVACY = [
   {
     h: 'Dados que coletamos',
-    p: 'Nome, e-mail e senha (armazenada de forma criptografada pelo provedor de autenticação), além dos dados que você mesmo registra: horários do plano, checklist, lista de compras, diário e favoritos.',
+    p: 'Nome, e-mail e senha (armazenada de forma criptografada pelo provedor de autenticação), além dos dados que você mesmo registra: horários do plano, peso e meta (se você optar por registrar), checklist, lista de compras, diário e favoritos.',
   },
   {
     h: 'Para que usamos',

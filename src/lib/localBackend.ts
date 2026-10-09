@@ -1,4 +1,4 @@
-import type { AuthUser, Backend, Favorite, JournalEntry, PlanSettings, LastViewed, ShoppingItem } from './types'
+import type { AuthUser, Backend, Favorite, JournalEntry, PlanSettings, LastViewed, ShoppingItem, WeightGoal } from './types'
 import { uid } from './utils'
 
 /**
@@ -16,6 +16,7 @@ interface DemoUser {
   onboarded: boolean
   plan: PlanSettings | null
   lastViewed: LastViewed | null
+  weight?: WeightGoal | null
 }
 
 interface DemoData {
@@ -123,7 +124,15 @@ export function createLocalBackend(): Backend {
     async getProfile(user) {
       const u = findById(user.id)
       if (!u) throw new Error('Auth session missing')
-      return { id: u.id, email: u.email, name: u.name, onboarded: u.onboarded, plan: u.plan, lastViewed: u.lastViewed }
+      return {
+        id: u.id,
+        email: u.email,
+        name: u.name,
+        onboarded: u.onboarded,
+        plan: u.plan,
+        lastViewed: u.lastViewed,
+        weight: u.weight ?? null,
+      }
     },
 
     async updateProfile(userId, patch) {

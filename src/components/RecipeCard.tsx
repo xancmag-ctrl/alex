@@ -3,6 +3,7 @@ import { Clock } from 'lucide-react'
 import type { Recipe } from '@/data/recipes'
 import { CATEGORY_LABEL } from '@/data/recipes'
 import { RecipeCover } from './RecipeCover'
+import { recipeNutrition } from '@/data/nutrition'
 import { FavoriteButton } from './FavoriteButton'
 import { cn } from '@/lib/utils'
 
@@ -24,7 +25,7 @@ export function RecipeCard({ recipe, className }: { recipe: Recipe; className?: 
         <h3 className="mt-0.5 line-clamp-2 font-semibold leading-snug text-ink">{recipe.title}</h3>
         <p className="mt-2 flex items-center gap-1.5 text-xs text-ink-muted">
           <Clock className="size-3.5" />
-          {recipe.minutes} min · {recipe.difficulty}
+          {recipe.minutes} min · {recipeNutrition(recipe.slug)?.kcal ?? '–'} kcal
         </p>
       </div>
     </Link>

@@ -7,6 +7,14 @@ export interface PlanSettings {
   sleep: string // "23:00"
 }
 
+/** Meta de peso (opcional). Pesos em kg. */
+export interface WeightGoal {
+  start: number
+  current: number
+  goal: number
+  updatedAt: string
+}
+
 export interface LastViewed {
   kind: FavoriteKind
   slug: string
@@ -20,6 +28,7 @@ export interface Profile {
   onboarded: boolean
   plan: PlanSettings | null
   lastViewed: LastViewed | null
+  weight: WeightGoal | null
 }
 
 export interface Favorite {
@@ -68,7 +77,7 @@ export interface Backend {
   updatePassword(password: string): Promise<void>
   // Perfil
   getProfile(user: AuthUser): Promise<Profile>
-  updateProfile(userId: string, patch: Partial<Pick<Profile, 'name' | 'onboarded' | 'plan' | 'lastViewed'>>): Promise<void>
+  updateProfile(userId: string, patch: Partial<Pick<Profile, 'name' | 'onboarded' | 'plan' | 'lastViewed' | 'weight'>>): Promise<void>
   // Favoritos
   listFavorites(userId: string): Promise<Favorite[]>
   setFavorite(userId: string, fav: Favorite, on: boolean): Promise<void>

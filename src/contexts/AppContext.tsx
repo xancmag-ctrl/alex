@@ -13,7 +13,7 @@ interface AppState {
   recovering: boolean
   isFavorite(kind: FavoriteKind, slug: string): boolean
   toggleFavorite(kind: FavoriteKind, slug: string): Promise<void>
-  updateProfile(patch: Partial<Pick<Profile, 'name' | 'onboarded' | 'plan'>>): Promise<void>
+  updateProfile(patch: Partial<Pick<Profile, 'name' | 'onboarded' | 'plan' | 'weight'>>): Promise<void>
   markViewed(kind: FavoriteKind, slug: string): void
   signOut(): Promise<void>
   clearRecovering(): void
@@ -100,7 +100,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   )
 
   const updateProfile = useCallback(
-    async (patch: Partial<Pick<Profile, 'name' | 'onboarded' | 'plan'>>) => {
+    async (patch: Partial<Pick<Profile, 'name' | 'onboarded' | 'plan' | 'weight'>>) => {
       if (!backend || !user) return
       await backend.updateProfile(user.id, patch)
       setProfile((p) => (p ? { ...p, ...patch } : p))

@@ -79,6 +79,23 @@ async function run(label, viewport) {
     await shot('06-plano')
   })
 
+  await step('meta de peso: definir, atualizar e ver no início', async () => {
+    await page.getByRole('button', { name: 'Definir meta' }).click()
+    await page.getByRole('button', { name: 'Salvar meta' }).click()
+    await page.getByText('Digite um peso válido.').first().waitFor()
+    await page.getByLabel('Peso atual (kg)').fill('80')
+    await page.getByLabel('Meta (kg)').fill('74,5')
+    await page.getByRole('button', { name: 'Salvar meta' }).click()
+    await page.getByText('Faltam').waitFor()
+    await page.getByRole('button', { name: 'Atualizar peso' }).click()
+    await page.getByLabel('Peso de hoje (kg)').fill('78')
+    await page.getByRole('button', { name: 'Salvar', exact: true }).click()
+    await page.getByText('3,5 kg').waitFor()
+    await shot('06b-meta')
+    await page.goto(BASE + '/')
+    await page.getByText(/faltam 3,5 kg/).waitFor()
+  })
+
   await step('receitas: busca, categoria e estado vazio', async () => {
     await page.goto(BASE + '/receitas')
     await shot('07-receitas')
@@ -94,6 +111,8 @@ async function run(label, viewport) {
   await step('receita: favoritar e adicionar à lista', async () => {
     await page.getByRole('link', { name: /Omelete de espinafre/ }).click()
     await page.getByRole('heading', { name: 'Omelete de espinafre e queijo' }).waitFor()
+    await page.getByRole('heading', { name: 'Informação nutricional' }).waitFor()
+    await page.getByText('269', { exact: true }).waitFor()
     await page.getByRole('button', { name: 'Favoritar' }).last().click()
     await page.getByText('Salvo nos favoritos').waitFor()
     await page.getByRole('button', { name: 'Adicionar à lista de compras' }).click()
